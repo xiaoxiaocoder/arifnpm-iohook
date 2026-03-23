@@ -14,9 +14,10 @@ jobs:
         os: [windows-latest]
         # os: [ubuntu-latest, macos-latest, windows-latest]
         arch: [x86_64]
-        # include:
-        #   - os: windows-latest
-        #     arch: i686
+        include:
+          - os: windows-latest
+            arch: i686
+        compiler: [ latest ]
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }} (${{matrix.arch}})
     steps:
@@ -30,17 +31,23 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           node-version: 16.17.1
 
-      - name: Setup Linux Dependencies
-        if: startsWith(matrix.os, 'ubuntu')
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y python3-distutils software-properties-common libx11-dev libxtst-dev libxt-dev libx11-xcb-dev libxkbcommon-dev libxkbcommon-x11-dev xorg-dev libxcb-xkb-dev libxkbfile-dev libxinerama-dev --fix-missing
+      - name: Install compiler
+        id: install_cc
+        uses: rlalik/setup-cpp-compiler@master
+        with:
+          compiler: ${{ matrix.compiler }}
+          
+      # - name: Setup Linux Dependencies
+      #   if: startsWith(matrix.os, 'ubuntu')
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y python3-distutils software-properties-common libx11-dev libxtst-dev libxt-dev libx11-xcb-dev libxkbcommon-dev libxkbcommon-x11-dev xorg-dev libxcb-xkb-dev libxkbfile-dev libxinerama-dev --fix-missing
 
-      - name: Setup Macos Dependencies
-        if: startsWith(matrix.os, 'macos')
-        run: |
-           python3 -m ensurepip || true
-           python3 -m pip install --upgrade pip setuptools
+      # - name: Setup Macos Dependencies
+      #   if: startsWith(matrix.os, 'macos')
+      #   run: |
+      #      python3 -m ensurepip || true
+      #      python3 -m pip install --upgrade pip setuptools
 
       - name: Install Packages
         run: npm i --ignore-scripts
