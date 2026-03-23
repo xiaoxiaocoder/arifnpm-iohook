@@ -34,7 +34,13 @@ jobs:
         if: startsWith(matrix.os, 'ubuntu')
         run: |
           sudo apt-get update
-          sudo apt-get install -y software-properties-common libx11-dev libxtst-dev libxt-dev libx11-xcb-dev libxkbcommon-dev libxkbcommon-x11-dev xorg-dev libxcb-xkb-dev libxkbfile-dev libxinerama-dev --fix-missing
+          sudo apt-get install -y python3-distutils software-properties-common libx11-dev libxtst-dev libxt-dev libx11-xcb-dev libxkbcommon-dev libxkbcommon-x11-dev xorg-dev libxcb-xkb-dev libxkbfile-dev libxinerama-dev --fix-missing
+
+      - name: Setup Macos Dependencies
+        if: startsWith(matrix.os, 'macos')
+        run: |
+           python3 -m ensurepip || true
+           python3 -m pip install --upgrade pip setuptools
 
       - name: Install Packages
         run: npm i --ignore-scripts
