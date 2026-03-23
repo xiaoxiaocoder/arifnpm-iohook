@@ -14,9 +14,9 @@ jobs:
         os: [windows-latest]
         # os: [ubuntu-latest, macos-latest, windows-latest]
         arch: [x86_64]
-        include:
-          - os: windows-latest
-            arch: i686
+        # include:
+        #   - os: windows-latest
+        #     arch: i686
         compiler: [ latest ]
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }} (${{matrix.arch}})
