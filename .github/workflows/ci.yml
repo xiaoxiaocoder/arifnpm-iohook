@@ -5,7 +5,7 @@ on:
   release:
   push:
   pull_request:
-    branches: [master]
+    branches: [master, sis-build]
 
 jobs:
   ci:
